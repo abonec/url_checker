@@ -3,7 +3,7 @@ module UrlChecker
     class Request
       module Actions
         def add_url
-
+          UrlChecker.add_url params[:url]
         end
         def actions
           @actions ||= Actions.instance_methods(false).

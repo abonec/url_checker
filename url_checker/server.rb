@@ -8,6 +8,7 @@ module UrlChecker
           puts error
           puts error.backtrace
         end
+        trap('SIGINT'){ EM.defer{binding.pry} }
       end
     end
 

@@ -2,5 +2,6 @@ $:.unshift File.dirname(__FILE__)
 require 'bundler'
 Bundler.require
 
-require 'url_checker'
 require 'active_support/core_ext/hash'
+require 'active_support/core_ext/module/attribute_accessors'
+require 'url_checker'

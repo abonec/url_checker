@@ -6,6 +6,8 @@ module UrlChecker
     class Request
       include Actions
       include CodeReloader
+
+      attr_reader :params
       def initialize(action, params)
         reload_code
         @action = action
@@ -14,7 +16,7 @@ module UrlChecker
       end
 
       def process
-        { action: @action, params: @params }
+        __send__ @action
       end
 
       def validate
