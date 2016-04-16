@@ -10,6 +10,10 @@ module UrlChecker
     def process_http_request
       response = Request.new(action, params).process
       send_response response
+    rescue Request::Error => e
+      send_response(e.as_json)
+    rescue Exception => e
+      send_response({error: :system, message: e.message, backtrace: e.backtrace})
     end
 
     def action
