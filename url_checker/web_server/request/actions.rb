@@ -1,5 +1,5 @@
 module UrlChecker
-  module WebServer
+  class WebServer < EM::Connection
     class Request
       module Actions
         def add_url

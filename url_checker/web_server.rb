@@ -1,6 +1,6 @@
 require 'url_checker/web_server/request'
 module UrlChecker
-  module WebServer
+  class WebServer < EM::Connection
     include EM::HttpServer
 
     def post_init

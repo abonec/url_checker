@@ -1,5 +1,5 @@
 module UrlChecker
-  module WebServer
+  class WebServer < EM::Connection
     class Request
       class Error < StandardError
         attr_reader :tag, :params

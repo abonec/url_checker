@@ -2,7 +2,7 @@ require 'url_checker/web_server/request/actions'
 require 'url_checker/web_server/request/code_reloader'
 require 'url_checker/web_server/request/error'
 module UrlChecker
-  module WebServer
+  class WebServer
     class Request
       include Actions
       include CodeReloader

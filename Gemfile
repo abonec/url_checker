@@ -5,3 +5,4 @@ gem 'eventmachine_httpserver', :require => 'evma_httpserver', git: 'https://gith
 gem 'rack'
 gem 'activesupport'
 gem 'pry'
+gem 'em-http-request'

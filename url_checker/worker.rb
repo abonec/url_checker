@@ -3,7 +3,6 @@ module UrlChecker
   class Worker
     DELAYS = {
         default: 2.minutes,
-        default: 5.seconds,
         1 => 1.minutes,
         2 => 30.seconds,
         3 => 15.seconds,
@@ -12,6 +11,7 @@ module UrlChecker
     LAST_DELAY = DELAYS.keys.select{|key|key.is_a? Fixnum}.max
     def initialize(url)
       @uri = URI.parse url
+      @errors_count = 0
       schedule :default if valid?
     end
 
@@ -22,12 +22,26 @@ module UrlChecker
     def schedule(delay_type)
       delay = get_delay(delay_type)
       add_timer delay do
-        check_url
+        EM.defer do
+          check_url
+        end
       end
     end
 
     def check_url
-      puts url
+      request = EM::HttpRequest.new(@uri).get
+      request.callback do
+        puts "#{url} is ok"
+        @status = :ok
+        @errors_count = 0
+        schedule :default
+      end
+      request.errback do
+        puts "#{url} is bad"
+        @status = :error
+        @errors_count += 1
+        schedule @errors_count
+      end
     end
 
     def valid?

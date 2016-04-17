@@ -1,10 +1,10 @@
 require 'active_support/file_update_checker'
 module UrlChecker
-  module WebServer
+  class WebServer < EM::Connection
     class Request
       module CodeReloader
         RELOAD_PATH = Bundler.root.to_s unless defined? RELOAD_PATH
-        EXCEPT_FILES = %w(start_server.rb requirements.rb)
+        EXCEPT_FILES = %w(start_server.rb requirements.rb add_fake_urls.rb)
 
         # FileUpdateChecker#initialize files, dirs, block
         @@checker ||= ActiveSupport::FileUpdateChecker.new [], [RELOAD_PATH] do
