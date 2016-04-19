@@ -5,6 +5,9 @@ module UrlChecker
         def add_url
           UrlChecker.add_url params[:url]
         end
+        def urls
+          UrlChecker.get_urls
+        end
         def actions
           @actions ||= Actions.instance_methods(false).
               reject{|method_name|method_name == :actions}.

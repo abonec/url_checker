@@ -6,3 +6,7 @@ gem 'rack'
 gem 'activesupport'
 gem 'pry'
 gem 'em-http-request'
+
+group :development do
+  gem 'byebug'
+end

@@ -1,28 +1,35 @@
 require 'url_checker/server'
 require 'url_checker/web_server'
 require 'url_checker/worker'
+require 'url_checker/api'
 module UrlChecker
   module_function
-  mattr_accessor(:workers){Hash.new}
-  def add_url(url)
-    worker = UrlChecker::Worker.new(url)
-    if worker.valid? && !workers[worker.url]
-      workers[worker.url] = worker
-      :url_added
-    else
-      if worker.valid?
-        worker.cancel
-        :url_was_already_added
-      else
-        :url_is_invalid
-      end
-    end
+  extend Api
+  mattr_accessor(:workers) do
+    {
+        unchecked: {},
+        good: {},
+        bad: {},
+    }
   end
 
-  def urls
-    workers.map(&:key)
-  end
-  def development?
+  def add_worker(worker)
+    return false if in_check_list?(worker)
+    workers[:unchecked][worker.url] = worker.start
+    worker.on_success do
+      workers[:unchecked].delete worker.url
+      workers[:bad].delete worker.url
+      workers[:good][worker.url] = worker
+    end
+    worker.on_error do
+      workers[:unchecked].delete worker.url
+      workers[:good].delete worker.url
+      workers[:bad][worker.url] = worker
+    end
     true
+  end
+
+  def in_check_list?(worker)
+    workers.values.any?{|type|type[worker.url]}
   end
 end
