@@ -9,3 +9,7 @@
 ## Add url
 
 `http://localhost:8080/add_url?url=#{url}`
+
+## Show all urls
+
+`http://localhost:8080/urls`
