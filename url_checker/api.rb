@@ -17,6 +17,10 @@ module UrlChecker
     def get_urls
       workers.map{|type, workers| [type, workers.keys.join(',')]}.to_h
     end
+
+    def queue_size
+      QueueManager.queue_size
+    end
     def development?
       true
     end

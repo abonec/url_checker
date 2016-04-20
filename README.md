@@ -14,6 +14,10 @@
 
 `http://localhost:8080/urls`
 
+## Show queue size
+
+`http://localhost:8080/queue_size`
+
 ## Add top ~500 urls
 
 `ruby add_top_500_sites.rb`

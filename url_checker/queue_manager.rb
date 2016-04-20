@@ -15,6 +15,10 @@ module UrlChecker
       end
     end
 
+    def queue_size
+      queue.size
+    end
+
     def init
       self.queue = EM::Queue.new
       self.workers = []

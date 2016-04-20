@@ -13,6 +13,10 @@ module UrlChecker
               reject{|method_name|method_name == :actions}.
               map(&:to_s)
         end
+
+        def queue_size
+          UrlChecker.queue_size
+        end
       end
     end
   end
