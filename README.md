@@ -13,3 +13,7 @@
 ## Show all urls
 
 `http://localhost:8080/urls`
+
+## Add top ~500 urls
+
+`ruby add_top_500_sites.rb`
