@@ -1,6 +1,7 @@
 module UrlChecker
   module Api
     def add_url(url)
+      puts "adding #{url}"
       worker = UrlChecker::Worker.new(url)
       if worker.valid?
         if add_worker worker

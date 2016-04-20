@@ -1,6 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 require 'bundler'
-Bundler.require :default
+Bundler.require
 
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/module/attribute_accessors'

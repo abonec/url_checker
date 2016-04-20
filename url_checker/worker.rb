@@ -1,10 +1,11 @@
 require 'uri'
-require 'url_checker/worker/timer_checker'
+require 'url_checker/worker/timed_queue'
 module UrlChecker
   class Worker
     attr_reader :uri
     DELAYS = {
         default: 2.minutes,
+        start: 0.seconds,
         1 => 1.minutes,
         2 => 30.seconds,
         3 => 15.seconds,
@@ -22,7 +23,7 @@ module UrlChecker
     end
 
     def start
-      schedule :default if valid?
+      schedule :start if valid?
       self
     end
 
@@ -32,23 +33,27 @@ module UrlChecker
 
     def schedule(delay_type)
       delay = get_delay(delay_type)
-      @timer = TimerChecker.new self, delay
+      @timer = TimedQueue.new self, delay
       @timer.start
-      @timer.callback do |status|
-        @errors_count = 0
-        @status = CORRECT
-        @last_status = status
-        @on_success.call(self) if @on_success
-        schedule :default
-      end
-      @timer.errback do |status, error|
-        @errors_count += 1
-        @status = ERROR
-        @last_status = status
-        @last_error = error
-        @on_error.call(self) if @on_error
-        schedule :error
-      end
+    end
+
+    def succeed(status)
+      @errors_count = 0
+      @status = CORRECT
+      @last_status = status
+      @on_success.call(self) if @on_success
+      schedule :default
+      puts "#{url} was ok"
+    end
+
+    def fail(status, error)
+      @errors_count += 1
+      @status = ERROR
+      @last_status = status
+      @last_error = error
+      @on_error.call(self) if @on_error
+      schedule :error
+      puts "#{url} not reached"
     end
 
     def valid?
@@ -60,7 +65,6 @@ module UrlChecker
     end
 
     def get_delay(delay_type)
-      return 5.seconds if UrlChecker.development?
       delay = DELAYS[delay_type || @errors_count]
       return delay if delay
       DELAYS[LAST_DELAY]
