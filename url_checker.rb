@@ -5,13 +5,7 @@ require 'url_checker/api'
 module UrlChecker
   module_function
   extend Api
-  mattr_accessor(:workers) do
-    {
-        unchecked: {},
-        good: {},
-        bad: {},
-    }
-  end
+  mattr_accessor :workers
 
   def add_worker(worker)
     return false if in_check_list?(worker)
@@ -31,5 +25,16 @@ module UrlChecker
 
   def in_check_list?(worker)
     workers.values.any?{|type|type[worker.url]}
+  end
+
+  def init
+    self.workers =
+        {
+          unchecked: {},
+          good: {},
+          bad: {},
+        }
+    QueueManager.init
+
   end
 end

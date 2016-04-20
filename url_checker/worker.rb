@@ -10,6 +10,9 @@ module UrlChecker
         2 => 30.seconds,
         3 => 15.seconds,
         4 => 10.seconds,
+        5 => 1.minute,
+        6 => 3.minutes,
+        7 => 5.minutes,
     }
     LAST_DELAY = DELAYS.keys.select{|key|key.is_a? Fixnum}.max
     UNCHECKED = :unchecked

@@ -11,7 +11,7 @@ module UrlChecker
           puts error.backtrace
         end
         trap('SIGINT'){ EM.defer{binding.pry} }
-        UrlChecker::QueueManager.start_queue_workers
+        UrlChecker.init
       end
     end
 

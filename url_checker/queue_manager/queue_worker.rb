@@ -9,6 +9,7 @@ module UrlChecker
         @queue.pop do |queue_worker|
           check_url queue_worker
         end
+        self
       end
       alias start continue
 
