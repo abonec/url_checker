@@ -1,10 +1,11 @@
+require 'url_checker/web_interface'
 module UrlChecker
   module Server
 
     def run
       EM.run do
         EM.threadpool_size = 100
-        EM.start_server '0.0.0.0', '8080', WebServer
+        WebInterface.init '0.0.0.0', '8080'
         puts 'server was started'
         EM.error_handler do |error|
           puts error

@@ -1,5 +1,4 @@
 require 'url_checker/server'
-require 'url_checker/web_server'
 require 'url_checker/worker'
 require 'url_checker/api'
 module UrlChecker
@@ -35,6 +34,5 @@ module UrlChecker
           bad: {},
         }
     QueueManager.init
-
   end
 end
