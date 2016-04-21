@@ -46,7 +46,7 @@ module UrlChecker
       @last_status = status
       @on_success.call(self) if @on_success
       schedule :default
-      puts "#{url} was ok"
+      puts "#{Time.now}: #{url} was ok"
     end
 
     def fail(status, error)
@@ -56,7 +56,7 @@ module UrlChecker
       @last_error = error
       @on_error.call(self) if @on_error
       schedule :error
-      puts "#{url} not reached"
+      puts "#{Time.now}: #{url} not reached"
     end
 
     def valid?
