@@ -2,7 +2,7 @@ require 'uri'
 require 'url_checker/worker/timed_queue'
 module UrlChecker
   class Worker
-    attr_reader :uri
+    attr_reader :uri, :status
     DELAYS = {
         default: 2.minutes,
         start: 0.seconds,
@@ -22,7 +22,9 @@ module UrlChecker
     def initialize(url)
       @uri = URI.parse url
       @errors_count = 0
-      @type = UNCHECKED
+      @status = UNCHECKED
+      @uptime = 0
+      @downtime = 0
     end
 
     def start
@@ -45,6 +47,7 @@ module UrlChecker
       @status = CORRECT
       @last_status = status
       @on_success.call(self) if @on_success
+      add_uptime
       schedule :default
       puts "#{Time.now}: #{url} was ok"
     end
@@ -55,6 +58,7 @@ module UrlChecker
       @last_status = status
       @last_error = error
       @on_error.call(self) if @on_error
+      add_downtime
       schedule :error
       puts "#{Time.now}: #{url} not reached"
     end
@@ -65,6 +69,37 @@ module UrlChecker
 
     def url
       @uri.to_s.chomp('/')
+    end
+
+    def add_uptime
+      @uptime += Time.now - @last_check_time if @last_check_time
+      @last_check_time = Time.now
+    end
+
+    def add_downtime
+      @downtime += Time.now - @last_check_time if @last_check_time
+      @last_check_time = Time.now
+    end
+
+    def sla_uptime
+      all_time = @uptime + @downtime
+      if all_time == 0
+        first_check_uptime = if @status == CORRECT
+                               1
+                             else
+                               0
+                             end
+        return first_check_uptime
+      end
+      @uptime.to_f / (@uptime + @downtime)
+    end
+
+    def formatted_uptime
+      if sla_uptime == 1
+        100
+      else
+        (sla_uptime*100).round(2)
+      end
     end
 
     def get_delay(delay_type)

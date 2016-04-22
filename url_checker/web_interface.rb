@@ -4,6 +4,8 @@ module UrlChecker
     include CodeReloader
     configure do
       set :threaded, true
+      set :root, File.join(File.dirname(__FILE__), 'web_interface')
+      set :views, Proc.new { File.join(root, 'views') }
     end
 
     before do
@@ -14,7 +16,8 @@ module UrlChecker
       UrlChecker.add_url params[:url]
     end
     get '/urls' do
-      UrlChecker.get_urls
+      @workers = UrlChecker.get_workers
+      slim :urls, layout: true
     end
 
     get '/queue_size' do

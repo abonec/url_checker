@@ -7,6 +7,7 @@ gem 'pry'
 gem 'em-http-request'
 gem 'thin'
 gem 'sinatra'
+gem 'slim'
 
 group :development do
   gem 'byebug'
