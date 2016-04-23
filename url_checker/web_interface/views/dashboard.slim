@@ -1,3 +1,11 @@
+.add_url
+  b Add url:
+  form method='post' action='/add_url'
+    input name='url' placeholder='http://...'
+    input type='submit' value='Add url'
+.queue_size
+  b Queue size:
+  = @queue_size
 table.urls
   thead
     tr

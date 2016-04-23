@@ -2,6 +2,7 @@ require 'url_checker/web_interface/code_reloader'
 module UrlChecker
   class WebInterface < Sinatra::Base
     include CodeReloader
+    register Sinatra::MultiRoute
     configure do
       set :threaded, true
       set :root, File.join(File.dirname(__FILE__), 'web_interface')
@@ -14,16 +15,14 @@ module UrlChecker
       reload_code
     end
 
-    get '/add_url' do
+    route :get, :post, '/add_url' do
       UrlChecker.add_url params[:url]
+      redirect '/dashboard'
     end
-    get '/urls' do
+    get '/dashboard' do
       @workers = UrlChecker.get_workers
-      slim :urls, layout: true
-    end
-
-    get '/queue_size' do
-      UrlChecker.queue_size.to_s
+      @queue_size = UrlChecker.queue_size
+      slim :dashboard, layout: true
     end
 
     class << self

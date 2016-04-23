@@ -8,16 +8,12 @@
 
 ## Add url
 
-`http://localhost:8080/add_url?url=#{url}`
+<http://localhost:8080/add_url?url=#{url}>
 
-## Show all urls
+## Dashboard page
 
-`http://localhost:8080/urls`
+<http://localhost:8080/dashboard>
 
-## Show queue size
+## Add sample sites
 
-`http://localhost:8080/queue_size`
-
-## Add top ~500 urls
-
-`ruby add_top_500_sites.rb`
+`ruby add_top_sites.rb`

@@ -3,7 +3,7 @@ module UrlChecker
   class WebInterface < Sinatra::Base
     module CodeReloader
       RELOAD_PATH = Bundler.root.to_s unless defined? RELOAD_PATH
-      EXCEPT_FILES = %w(start_server.rb requirements.rb add_top_500_sites.rb)
+      EXCEPT_FILES = %w(start_server.rb requirements.rb add_top_sites.rb)
 
       # FileUpdateChecker#initialize files, dirs, block
       @@checker ||= ActiveSupport::FileUpdateChecker.new [], [RELOAD_PATH] do
