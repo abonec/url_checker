@@ -6,6 +6,8 @@ module UrlChecker
       set :threaded, true
       set :root, File.join(File.dirname(__FILE__), 'web_interface')
       set :views, Proc.new { File.join(root, 'views') }
+      set :static, true
+      set :public_folder, Proc.new { File.join(root, 'public') }
     end
 
     before do

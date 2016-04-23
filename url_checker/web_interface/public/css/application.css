@@ -1,0 +1,32 @@
+table.urls {
+    width: 100%;
+    border: 1px solid #cccccc;
+}
+
+table.urls a {
+    text-decoration: none;
+}
+
+table.urls, table.urls th, table.urls td {
+    border-collapse: collapse;
+}
+
+table.urls th {
+    background-color: #4CAF50;
+    color: white;
+    height: 50px;
+}
+
+table.urls td.center {
+    text-align: center;
+}
+table.urls tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table.urls tr:hover {
+    background-color: #cdcdcd;
+}
+table.urls tr {
+    height: 40px;
+}
