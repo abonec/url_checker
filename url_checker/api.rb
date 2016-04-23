@@ -15,7 +15,6 @@ module UrlChecker
     end
 
     def get_workers
-      workers.map{|type, workers| [type, workers.values]}.to_h
       workers.map{|type, workers| workers.values}.flatten
     end
 

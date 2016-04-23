@@ -15,6 +15,7 @@ table.urls
       th Url
       th State
       th Uptime
+      th Delete
   tbody
     - @workers.sort_by(&:formatted_uptime).each do |worker|
       tr
@@ -22,3 +23,6 @@ table.urls
           a href=worker.url target='_blank' = worker.url
         td.center = worker.status
         td.center = worker.formatted_uptime
+        td.center
+          a.delete href='#' data={id: worker.id}
+            |[x]

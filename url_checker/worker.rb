@@ -2,7 +2,7 @@ require 'uri'
 require 'url_checker/worker/timed_queue'
 module UrlChecker
   class Worker
-    attr_reader :uri, :status
+    attr_reader :uri, :status, :id
     DELAYS = {
         default: 2.minutes,
         start: 0.seconds,
@@ -15,11 +15,17 @@ module UrlChecker
         7 => 5.minutes,
     }
     LAST_DELAY = DELAYS.keys.select{|key|key.is_a? Fixnum}.max
+    WORKERS = []
     UNCHECKED = :unchecked
     CORRECT = :correct
     ERROR = :error
     TYPES = [UNCHECKED, CORRECT, ERROR]
+
+    @@last_id = 0
+
     def initialize(url)
+      @id = @@last_id = @@last_id + 1
+      WORKERS[@id] = self
       @uri = URI.parse url
       @errors_count = 0
       @status = UNCHECKED
@@ -34,6 +40,8 @@ module UrlChecker
 
     def stop
       @timer.cancel
+      WORKERS.delete @id
+      @on_stop.call if @on_stop
     end
 
     def schedule(delay_type)
@@ -110,6 +118,12 @@ module UrlChecker
 
     def on_success(&block); @on_success = block; end
     def on_error(&block);   @on_error   = block; end
+    def on_stop(&block);   @on_stop   = block; end
+
+
+    def self.find(id)
+      WORKERS[id]
+    end
 
   end
 end

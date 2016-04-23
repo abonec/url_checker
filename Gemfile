@@ -8,6 +8,7 @@ gem 'em-http-request'
 gem 'thin'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'rack-contrib'
 gem 'slim'
 
 group :development do

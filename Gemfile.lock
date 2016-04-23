@@ -22,6 +22,7 @@ GEM
     em-socksify (0.3.1)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.2.0.1)
+    git-version-bump (0.15.1)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
     json (1.8.3)
@@ -33,6 +34,9 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.6.4)
+    rack-contrib (1.4.0)
+      git-version-bump (~> 0.15)
+      rack (~> 1.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -72,6 +76,7 @@ DEPENDENCIES
   eventmachine
   pry
   rack
+  rack-contrib
   sinatra
   sinatra-contrib
   slim

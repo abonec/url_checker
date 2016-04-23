@@ -25,6 +25,11 @@ module UrlChecker
       slim :dashboard, layout: true
     end
 
+    post '/delete_url' do
+      UrlChecker.stop_worker params[:id].to_i
+      redirect '/dashboard'
+    end
+
     class << self
       def init(host, port)
         dispatch = Rack::Builder.app do

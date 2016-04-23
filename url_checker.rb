@@ -19,7 +19,18 @@ module UrlChecker
       workers[:good].delete worker.url
       workers[:bad][worker.url] = worker
     end
+    worker.on_stop do
+      workers[:unchecked].delete worker.url
+      workers[:good].delete worker.url
+      workers[:bad].delete worker.url
+    end
     true
+  end
+
+  def stop_worker(id)
+    worker = Worker.find(id)
+    return unless worker
+    worker.stop
   end
 
   def in_check_list?(worker)
