@@ -5,9 +5,9 @@ table
       th State
       th Uptime
   tbody
-    - %i(unchecked bad good).each do |type|
-      - @workers[type].each do |worker|
-        tr
-          td = worker.url
-          td = worker.status
-          td = worker.formatted_uptime
+    - @workers.sort_by(&:formatted_uptime).each do |worker|
+      tr
+        td
+          a href=worker.url target='_blank' = worker.url
+        td = worker.status
+        td = worker.formatted_uptime
