@@ -1,4 +1,5 @@
 require 'url_checker/web_interface/code_reloader'
+require 'sinatra/json'
 module UrlChecker
   class WebInterface < Sinatra::Base
     include CodeReloader
@@ -15,19 +16,18 @@ module UrlChecker
       reload_code
     end
 
-    route :get, :post, '/add_url' do
-      UrlChecker.add_url params[:url]
-      redirect '/dashboard'
-    end
     get '/dashboard' do
       @workers = UrlChecker.get_workers
       @queue_size = UrlChecker.queue_size
       slim :dashboard, layout: true
     end
 
-    post '/delete_url' do
-      UrlChecker.stop_worker params[:id].to_i
-      redirect '/dashboard'
+    post '/urls' do
+      json result: UrlChecker.add_url(params[:url])
+    end
+
+    delete '/urls' do
+      json result: UrlChecker.stop_worker(params[:id].to_i)
     end
 
     class << self

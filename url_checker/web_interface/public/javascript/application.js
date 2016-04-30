@@ -1,23 +1,35 @@
-var send_ajax = function(url, method, params, success){
-    var r = new XMLHttpRequest();
-    r.open(method, url, true);
-    r.onreadystatechange = function () {
-        if (r.readyState != 4 || r.status != 200) return;
-        success();
-    };
-    r.send(params);
-};
-document.addEventListener("DOMContentLoaded", function() {
-    var links = document.getElementsByClassName('delete');
-    for(var i = 0; i < links.length; i++) {
-        links[i].addEventListener('click', function(e){
-            e.preventDefault();
-            var element = e.target;
-            var id = element.dataset.id;
-            alert('not yet working');
-            // send_ajax('/delete_url', 'POST', "id="+id, function(){
-            //     alert('sent!');
-            // })
-        }, false);
-    }
+$(function(){
+  $('.delete').on('click',function(e){
+    var id = $(this).data('id');
+    $.ajax({
+        url: '/urls',
+        method: 'DELETE',
+        data: { id: id }
+    }).success(function(data){
+        alert(data);
+        location.reload();
+    }).fail(function(){
+        alert('data');
+        alert('fail');
+    });
+    e.preventDefault();
+  });
+  $('#add_url_form').submit(function(e){
+    console.log(e);
+    window.evt = e;
+    $.ajax({
+        url: e.target.action,
+        method: 'POST',
+        data: $(e.target).serialize()
+    }).success(function(data){
+        console.log(data);
+        location.reload();
+    }).fail(function(data){
+        alert(data);
+        alert('fail');
+    });
+    e.preventDefault();
+  });
 });
+
+

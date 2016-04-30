@@ -27,12 +27,6 @@ module UrlChecker
     true
   end
 
-  def stop_worker(id)
-    worker = Worker.find(id)
-    return unless worker
-    worker.stop
-  end
-
   def in_check_list?(worker)
     workers.values.any?{|type|type[worker.url]}
   end

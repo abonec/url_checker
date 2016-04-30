@@ -14,6 +14,13 @@ module UrlChecker
       end
     end
 
+    def stop_worker(id)
+      worker = Worker.find(id)
+      return :worker_not_found unless worker
+      worker.stop
+      :worker_was_stopped
+    end
+
     def get_workers
       workers.map{|type, workers| workers.values}.flatten
     end
