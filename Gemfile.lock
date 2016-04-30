@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/abonec/model_id
-  revision: f2ca7412155f85ab5f67797da29150089be4ff23
-  specs:
-    model_id (0.0.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,6 +28,7 @@ GEM
     json (1.8.3)
     method_source (0.8.2)
     minitest (5.8.4)
+    model_id (0.0.2)
     multi_json (1.11.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -80,7 +75,7 @@ DEPENDENCIES
   byebug
   em-http-request
   eventmachine
-  model_id!
+  model_id
   pry
   rack
   rack-contrib
