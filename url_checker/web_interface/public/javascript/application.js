@@ -6,17 +6,14 @@ $(function(){
         method: 'DELETE',
         data: { id: id }
     }).success(function(data){
-        alert(data);
         location.reload();
-    }).fail(function(){
-        alert('data');
+    }).fail(function(data){
         alert('fail');
+        console.log(data);
     });
     e.preventDefault();
   });
   $('#add_url_form').submit(function(e){
-    console.log(e);
-    window.evt = e;
     $.ajax({
         url: e.target.action,
         method: 'POST',

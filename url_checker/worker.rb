@@ -21,17 +21,22 @@ module UrlChecker
     ERROR = :error
     TYPES = [UNCHECKED, CORRECT, ERROR]
 
+    ID_MUTEX = Mutex.new
+
     @@last_id = 0
 
     def initialize(url)
-      @id = @@last_id = @@last_id + 1
-      WORKERS[@id] = self
+      ID_MUTEX.synchronize do
+        @id = @@last_id = @@last_id + 1
+      end
+      Worker.workers[@id] = self
       @uri = URI.parse url
       @errors_count = 0
       @status = UNCHECKED
       @uptime = 0
       @downtime = 0
     end
+
 
     def start
       schedule :start if valid?
@@ -121,9 +126,14 @@ module UrlChecker
     def on_stop(&block);   @on_stop   = block; end
 
 
-    def self.find(id)
-      WORKERS[id]
+    class << self
+      def find(id)
+        workers[id]
+      end
+      def init
+        singleton_class.send :attr_accessor, :workers
+        self.workers = []
+      end
     end
-
   end
 end
