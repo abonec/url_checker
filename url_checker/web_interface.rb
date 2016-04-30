@@ -1,9 +1,11 @@
 require 'url_checker/web_interface/code_reloader'
 require 'sinatra/json'
+require 'sinatra/reloader'
 module UrlChecker
   class WebInterface < Sinatra::Base
     include CodeReloader
     register Sinatra::MultiRoute
+    register Sinatra::Reloader
     configure do
       set :threaded, true
       set :root, File.join(File.dirname(__FILE__), 'web_interface')
