@@ -10,6 +10,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'rack-contrib'
 gem 'slim'
+gem 'model_id', git: 'https://github.com/abonec/model_id'
 
 group :development do
   gem 'byebug'

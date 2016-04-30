@@ -15,7 +15,7 @@ module UrlChecker
     end
 
     def stop_worker(id)
-      worker = Worker.find(id)
+      worker = Worker.find_by_id(id)
       return :worker_not_found unless worker
       worker.stop
       :worker_was_stopped

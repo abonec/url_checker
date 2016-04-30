@@ -38,7 +38,6 @@ module UrlChecker
           good: {},
           bad: {},
         }
-    Worker.init
     QueueManager.init
   end
 end
